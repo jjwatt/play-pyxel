@@ -1,4 +1,4 @@
 SHELL="/bin/bash"
 
 run:
-	pyxel run lines.py
+	pyxel run randomline.py
