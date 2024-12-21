@@ -1,5 +1,6 @@
 import pyxel
 
+
 def bline(x1, y1, x2, y2):
     # deltas
     dx = x2 - x1
