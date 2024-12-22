@@ -40,6 +40,7 @@ def bline(x1, y1, x2, y2):
     points.append((x2, y2))
     return points
 
+
 width = 500
 height = 100
 points = bline(20, 10, 400, 90)

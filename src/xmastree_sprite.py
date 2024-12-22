@@ -59,7 +59,7 @@ def draw():
             y = random.randint(ground_y, pyxel.height)
             pyxel.pset(x, y, pyxel.COLOR_LIGHT_BLUE)
 
-    
+
     u = current_frame * 128
     # Draw the sprite at in the x mid-point
     tree_x = (pyxel.width // 2) - (tree_width // 2)
