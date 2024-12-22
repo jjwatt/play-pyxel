@@ -1,0 +1,78 @@
+import pyxel
+import random
+
+pyxel.init(256, 256, title="Merry Christmas Demo by @lawofcons")
+# load the sprite sheet
+pyxel.images[0].load(0, 0, "christmas_tree_w_snow2.png")
+current_frame = 0
+tree_width = 128
+tree_height = 160
+snowflakes = []
+
+def update():
+    global current_frame
+    global snowflakes
+    # Adjust speed
+    if pyxel.frame_count % 10 == 0:
+        # cycle between 0 and 1
+        current_frame = (current_frame + 1) % 2
+    for snowflake in snowflakes:
+        snowflake[1] += 1  # move snowflake down
+        if snowflake[1] > pyxel.height:  # reset snowflake to the top
+            snowflake[0] = random.randint(0, pyxel.width)
+            snowflake[1] = 0
+
+
+def initialize_snowflakes():
+    """Init snowflakes with random positions"""
+    global snowflakes
+    for _ in range(400):
+        x = random.randint(0, pyxel.width)
+        y = random.randint(0, pyxel.height)
+        snowflakes.append([x, y])
+
+def draw():
+    global snowflakes
+    global current_frame
+    global tree_height
+    global tree_width
+    pyxel.cls(0)
+
+    # # Draw snowy ground
+    ground_y = pyxel.height - 48  # Height of the ground
+    pyxel.rect(0, ground_y, pyxel.width, 60, pyxel.COLOR_WHITE)
+    speed = 15
+    # Add specks of snow for texture
+    # Adjust number of specks
+    for _ in range(100):
+        if pyxel.frame_count % speed == 0:
+            x = random.randint(0, pyxel.width)
+            y = random.randint(ground_y, pyxel.height)
+            pyxel.pset(x, y, pyxel.COLOR_LIGHT_BLUE)
+
+    
+    u = current_frame * 128
+    # Draw the sprite at in the x mid-point
+    tree_x = (pyxel.width // 2) - (tree_width // 2)
+    tree_y = (pyxel.height // 2) - 32
+    pyxel.blt(tree_x, tree_y, 0, u, 0, tree_width, tree_height, 0)
+    # Draw snowflakes
+    for snowflake in snowflakes:
+        pyxel.pset(snowflake[0],
+                   snowflake[1],
+                   pyxel.COLOR_WHITE)
+    # Draw Moon
+    moon_x = pyxel.width - 50  # X position for the moon (near top-right corner)
+    moon_y = 50              # Y position for the moon
+    moon_radius = 15         # Radius of the moon
+
+    # Draw the glow (larger, semi-transparent circle)
+    pyxel.circb(moon_x, moon_y, moon_radius + 8, pyxel.COLOR_LIGHT_BLUE)
+    pyxel.circb(moon_x, moon_y, moon_radius + 6, pyxel.COLOR_LIGHT_BLUE)
+
+    # Draw the moon itself
+    pyxel.circ(moon_x, moon_y, moon_radius, pyxel.COLOR_WHITE)
+
+
+initialize_snowflakes()
+pyxel.run(update, draw)
