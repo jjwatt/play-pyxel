@@ -2,16 +2,25 @@ import pyxel
 import random
 
 pyxel.init(256, 256, title="Merry Christmas Demo by @lawofcons")
+pyxel.load("xmas_resource.pyxres")
 # load the sprite sheet
 pyxel.images[0].load(0, 0, "christmas_tree_w_snow2.png")
+
 current_frame = 0
 tree_width = 128
 tree_height = 160
 snowflakes = []
+current_sequence = 0
 
 def update():
     global current_frame
     global snowflakes
+    global current_sequence
+
+     #if pyxel.btnp(pyxel.KEY_SPACE):
+    if pyxel.play_pos(0) is None:
+        current_sequence = (current_sequence + 1) % 3
+        pyxel.play(0, current_sequence)
     # Adjust speed
     if pyxel.frame_count % 10 == 0:
         # cycle between 0 and 1
