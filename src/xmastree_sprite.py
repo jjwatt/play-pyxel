@@ -17,17 +17,19 @@ def update():
     global snowflakes
     global current_sequence
 
-     #if pyxel.btnp(pyxel.KEY_SPACE):
+    # play song parts back to back and cycle back to the beginning
     if pyxel.play_pos(0) is None:
         current_sequence = (current_sequence + 1) % 3
         pyxel.play(0, current_sequence)
-    # Adjust speed
+    # speed
     if pyxel.frame_count % 10 == 0:
         # cycle between 0 and 1
         current_frame = (current_frame + 1) % 2
     for snowflake in snowflakes:
-        snowflake[1] += 1  # move snowflake down
-        if snowflake[1] > pyxel.height:  # reset snowflake to the top
+        # move snowflake down
+        snowflake[1] += 1
+        # reset snowflake to the top
+        if snowflake[1] > pyxel.height:
             snowflake[0] = random.randint(0, pyxel.width)
             snowflake[1] = 0
 
@@ -47,12 +49,12 @@ def draw():
     global tree_width
     pyxel.cls(0)
 
-    # # Draw snowy ground
+    # Draw snowy ground
     ground_y = pyxel.height - 48  # Height of the ground
     pyxel.rect(0, ground_y, pyxel.width, 60, pyxel.COLOR_WHITE)
     speed = 15
-    # Add specks of snow for texture
-    # Adjust number of specks
+    # add specks of snow for texture
+    # adjust number of specks
     for _ in range(100):
         if pyxel.frame_count % speed == 0:
             x = random.randint(0, pyxel.width)
@@ -61,25 +63,25 @@ def draw():
 
 
     u = current_frame * 128
-    # Draw the sprite at in the x mid-point
+    # Draw the sprite at in the x mid-point.
     tree_x = (pyxel.width // 2) - (tree_width // 2)
     tree_y = (pyxel.height // 2) - 32
     pyxel.blt(tree_x, tree_y, 0, u, 0, tree_width, tree_height, 0)
-    # Draw snowflakes
+    # Draw snowflakes.
     for snowflake in snowflakes:
         pyxel.pset(snowflake[0],
                    snowflake[1],
                    pyxel.COLOR_WHITE)
     # Draw Moon
-    moon_x = pyxel.width - 50  # X position for the moon (near top-right corner)
-    moon_y = 50              # Y position for the moon
-    moon_radius = 15         # Radius of the moon
+    moon_x = pyxel.width - 50
+    moon_y = 50
+    moon_radius = 15
 
-    # Draw the glow (larger, semi-transparent circle)
+    # Draw the glow (larger, semi-transparent circle).
     pyxel.circb(moon_x, moon_y, moon_radius + 8, pyxel.COLOR_LIGHT_BLUE)
     pyxel.circb(moon_x, moon_y, moon_radius + 6, pyxel.COLOR_LIGHT_BLUE)
 
-    # Draw the moon itself
+    # Draw the moon.
     pyxel.circ(moon_x, moon_y, moon_radius, pyxel.COLOR_WHITE)
 
 
