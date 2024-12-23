@@ -2,7 +2,13 @@ import pyxel
 import random
 
 
-def bline(x1, y1, x2, y2):
+def bresenham_line(x1, y1, x2, y2):
+    """Bresenham's Line Drawing algorithm.
+    Args:
+        x1, y1, x2, y2: The beginning and end points
+    Returns:
+      A list of points for the line
+    """
     # deltas
     dx = x2 - x1
     dy = y2 - y1
@@ -43,12 +49,17 @@ def bline(x1, y1, x2, y2):
 
 
 def draw_line(x1, y1, x2, y2, col):
-    points = bline(x1, y1, x2, y2)
+    points = bresenham_line(x1, y1, x2, y2)
     for p in points:
         pyxel.pset(p[0], p[1], col)
 
 
-def bcircle(x0, y0, radius):
+def draw_filled_rectangle(x1, y1, x2, y2, color):
+    for y in range(y1, y2 + 1):
+        draw_line(x1, y, x2, y, color)
+
+
+def bresenham_circle(x0, y0, radius):
     x = radius
     y = 0
     err = 0
@@ -67,7 +78,7 @@ def bcircle(x0, y0, radius):
 
 
 def draw_circle(x, y, radius, color):
-    points = bcircle(x, y, radius)
+    points = bresenham_circle(x, y, radius)
     for p in points:
         pyxel.pset(p[0], p[1], color)
 
@@ -112,6 +123,7 @@ class ChristmasDemo:
         """Draw a snowy ground with random specks of snow."""
         ground_y = self.height - 48  # Height of the ground
         pyxel.rect(0, ground_y, self.width, 60, pyxel.COLOR_WHITE)
+        # draw_filled_rectangle(0, ground_y, self.width, 60, pyxel.COLOR_WHITE)
         speed = 15
         # Add specks of snow for texture
         # Adjust number of specks
@@ -134,7 +146,7 @@ class ChristmasDemo:
 
         # Draw the moon itself
         pyxel.circ(moon_x, moon_y, moon_radius, pyxel.COLOR_WHITE)
-    
+
     def draw_snow(self):
         """Draw snowflakes"""
         for snowflake in self.snowflakes:
