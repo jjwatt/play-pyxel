@@ -12,6 +12,7 @@ tree_height = 160
 snowflakes = []
 current_sequence = 0
 
+
 def update():
     global current_frame
     global snowflakes
